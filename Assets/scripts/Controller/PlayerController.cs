@@ -26,19 +26,31 @@ public class PlayerController : MonoBehaviour {
 
 	private ScoreController _score;
 	private bool _isFalling;
+	private bool _isAlive;
 
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		//position = gameObject.transform.position;
 		//velocity = new Vector2 (0, 0);
-		_view = this.GetComponent<PlayerView> ();
-		_startPoint = gameObject.transform.position;
+		_view = GetComponent<PlayerView> ();
+		_startPoint = transform.position;
 		_score = ScoreController.GetInstance();
+	}
+
+	void Start() {
+		Init();
+	}
+
+	public void Init() {
 		_isFalling = false;
+		_isAlive = true;
+		transform.position = _startPoint;
+		GetComponent<SpriteRenderer>().enabled = true;
 	}
 
 	void Update () {
+		if (!_isAlive) return;
 	
 		_hitbox = new Rect (GetComponent<Collider2D>().bounds.min.x + _hitboxGap, GetComponent<Collider2D>().bounds.min.y + _hitboxGap, GetComponent<Collider2D>().bounds.size.x - _hitboxGap * 2, GetComponent<Collider2D>().bounds.size.y - _hitboxGap * 2);
 		Vector2 direction;
@@ -151,8 +163,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Die() {
+		_isAlive = false;
+		GetComponent<SpriteRenderer>().enabled = false;
 		Transform.Instantiate(deathEffect, transform.position, Quaternion.identity);
-		gameObject.SetActive (false);
+		//gameObject.SetActive (false);
 	}
 	
 	void ResetPosition() {
@@ -166,6 +180,12 @@ public class PlayerController : MonoBehaviour {
 	void SetMoving(bool moving_value) {
 		//_moving = moving_value;
 		_velocity = Vector2.zero;
+	}
+
+	public bool IsAlive {
+		get {
+			return _isAlive;
+		}
 	}
 
 	public static PlayerController GetInstance() {

@@ -10,7 +10,6 @@ public class FollowingCamera : MonoBehaviour {
 	}
 
 	void Start() {
-		Debug.Log(_player);
 		_offset = transform.position.y - _player.transform.position.y;
 	}
 
