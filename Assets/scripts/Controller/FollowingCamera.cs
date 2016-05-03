@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class FollowingCamera : MonoBehaviour {
-	private PlayerController _player;
+	private PlayerMover _player;
 	private float _offset;
 
 	void Awake() {
-		_player = PlayerController.GetInstance();
+		_player = PlayerMover.GetInstance();
 	}
 
 	void Start() {

@@ -2,12 +2,12 @@
 using System.Collections;
 
 public class GameController : MonoBehaviour {
-	private PlayerController _player;
+	private PlayerMover _player;
 	private LevelManager _level;
 	private DiedMessageController _diedMessage;
 
 	void Awake() {
-		_player = PlayerController.GetInstance();
+		_player = PlayerMover.GetInstance();
 		_level = LevelManager.GetInstance();
 		_diedMessage = DiedMessageController.GetInstance();
 	}

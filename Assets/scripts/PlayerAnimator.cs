@@ -10,7 +10,6 @@ public class PlayerAnimator : MonoBehaviour {
 		animator = GetComponent<Animator> ();
 	}
 
-	// Use this for initialization
 	void SetVelocity(Vector2 velocity) {
 		animator.SetFloat("x_velocity", velocity.x);
 		animator.SetFloat("y_velocity", velocity.y);
