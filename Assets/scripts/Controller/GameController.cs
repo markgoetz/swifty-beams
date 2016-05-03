@@ -5,11 +5,13 @@ public class GameController : MonoBehaviour {
 	private PlayerMover _player;
 	private LevelManager _level;
 	private DiedMessageController _diedMessage;
+	private ScoreController _scoreController;
 
 	void Awake() {
 		_player = PlayerMover.GetInstance();
 		_level = LevelManager.GetInstance();
 		_diedMessage = DiedMessageController.GetInstance();
+		_scoreController = ScoreController.GetInstance();
 	}
 
 	void Start () {
@@ -18,10 +20,10 @@ public class GameController : MonoBehaviour {
 	
 	private IEnumerator GameLoop() {
 		while (true) {
-			while (_player.IsAlive)
+			while (_player.IsAlive) {
 				yield return null;
+			}
 
-			//
 			_diedMessage.Show();
 
 			while (!_diedMessage.IsDone) {
@@ -30,6 +32,7 @@ public class GameController : MonoBehaviour {
 
 			_player.Init();
 			_level.Init();
+			_scoreController.ResetScore();
 		}
 	}
 }

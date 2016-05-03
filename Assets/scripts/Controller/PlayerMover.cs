@@ -36,6 +36,7 @@ public class PlayerMover : MonoBehaviour {
 		_view = GetComponent<PlayerView> ();
 		_startPoint = transform.position;
 		_score = ScoreController.GetInstance();
+		_isAlive = true;
 	}
 
 	void Start() {
@@ -163,6 +164,7 @@ public class PlayerMover : MonoBehaviour {
 	}
 
 	void Die() {
+		_velocity = Vector2.zero;
 		_isAlive = false;
 		GetComponent<SpriteRenderer>().enabled = false;
 		Transform.Instantiate(deathEffect, transform.position, Quaternion.identity);
@@ -184,6 +186,7 @@ public class PlayerMover : MonoBehaviour {
 
 	public bool IsAlive {
 		get {
+			Debug.Log(_isAlive);
 			return _isAlive;
 		}
 	}

@@ -14,6 +14,7 @@ public class ScoreController : MonoBehaviour {
 
 	public void ResetScore() {
 		_score = 0;
+		_view.UpdateScore(_score, _bestScore);
 	}
 
 	public void AddScore() {

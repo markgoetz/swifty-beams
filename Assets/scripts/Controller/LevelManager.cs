@@ -26,7 +26,7 @@ public class LevelManager : MonoBehaviour {
 		_rowY = 0;
 
 		foreach (Transform child in gameObject.transform) {
-            Destroy(child);
+            Destroy(child.gameObject);
         }
 
 		for (int i = 0; i < initialRows; i++) {
@@ -124,6 +124,6 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	public static LevelManager GetInstance() {
-		return GameObject.FindGameObjectWithTag("Level Manager").GetComponent<LevelManager>();
+		return GameObject.FindGameObjectWithTag("LevelManager").GetComponent<LevelManager>();
 	}
 }
