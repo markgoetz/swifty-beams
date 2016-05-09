@@ -186,7 +186,6 @@ public class PlayerMover : MonoBehaviour {
 
 	public bool IsAlive {
 		get {
-			Debug.Log(_isAlive);
 			return _isAlive;
 		}
 	}
