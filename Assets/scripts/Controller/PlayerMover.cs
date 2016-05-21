@@ -154,8 +154,8 @@ public class PlayerMover : MonoBehaviour {
 		}
 		
 		else if (collision.gameObject.tag == "LaserTrigger") {
-			GameObject level = GameObject.FindGameObjectsWithTag("LevelManager")[0];
-			level.SendMessage("AddRowWithLaser", collision.gameObject.GetComponent<LaserTrigger>());
+			LevelManager level = LevelManager.GetInstance();
+			level.AddRowWithLaser(collision.gameObject.GetComponent<LaserTrigger>());
 		}
 		
 		else if (collision.gameObject.tag == "ScoreTrigger") {

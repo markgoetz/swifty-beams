@@ -575,6 +575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftSide: {fileID: 1736131041}
   rightSide: {fileID: 577855638}
+  level: {fileID: 774067130}
   singleBlock: {fileID: 400002, guid: 83ce8fc6090b14c3e9e7713260c95cb7, type: 2}
   leftBlock: {fileID: 400000, guid: 90bd429c3bb084b76860ca25b95167b1, type: 2}
   rightBlock: {fileID: 400000, guid: 1cf30eb31949c4fe09fb35af884b1d8b, type: 2}
@@ -1328,7 +1329,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 577855637}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 160, y: 0, z: 0}
+  m_LocalPosition: {x: 320, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 233587354}
@@ -3407,7 +3408,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1736131040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -160, y: 0, z: 0}
+  m_LocalPosition: {x: -320, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 233587354}

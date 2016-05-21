@@ -101,7 +101,7 @@ public class LevelManager : MonoBehaviour {
 		return row;
 	}
 	
-	void AddRowWithLaser(LaserTrigger trigger) {
+	public void AddRowWithLaser(LaserTrigger trigger) {
 		AddRow ();
 		float laser_y = Mathf.Ceil(trigger.transform.position.y / 32) * 32;
 		AddLaser(laser_y, trigger.LeftSide, trigger.RightSide);		
@@ -114,14 +114,14 @@ public class LevelManager : MonoBehaviour {
 		if (left_side) {
 			Transform laser_transform = Instantiate (laser, new Vector2(leftSide.transform.position.x, y_position), Quaternion.identity) as Transform;
 			Laser l = laser_transform.GetComponent<Laser>();
-			l.transform.parent = gameObject.transform;
+			l.transform.parent = level.transform;
 			l.Init("right");
 		}
 
 		if (right_side) {
 			Transform laser_transform = Instantiate (laser, new Vector2(rightSide.transform.position.x, y_position), Quaternion.identity) as Transform;
 			Laser l = laser_transform.GetComponent<Laser>();
-			l.transform.parent = gameObject.transform;
+			l.transform.parent = level.transform;
 			l.Init("left");
 		}
 	}
