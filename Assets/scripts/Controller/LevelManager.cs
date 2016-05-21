@@ -6,7 +6,10 @@ public class LevelManager : MonoBehaviour {
 	private const int TILES_PER_ROW = 10;
 	
 	private int _rowY;
-	
+
+	public Transform leftSide;
+	public Transform rightSide;
+	public Transform level;
 	public Transform singleBlock;
 	public Transform leftBlock;
 	public Transform rightBlock;
@@ -25,7 +28,7 @@ public class LevelManager : MonoBehaviour {
 	public void Init() {
 		_rowY = 0;
 
-		foreach (Transform child in gameObject.transform) {
+		foreach (Transform child in level.transform) {
             Destroy(child.gameObject);
         }
 
@@ -62,14 +65,14 @@ public class LevelManager : MonoBehaviour {
 				block_prefab = singleBlock;
 				
 			Transform block = Instantiate(block_prefab, new Vector2(i * 32 - 144, _rowY), Quaternion.identity) as Transform;
-			block.parent = gameObject.transform;
+			block.parent = level.transform;
 		}
 
 		Transform laser_trigger = Instantiate (laserTrigger, new Vector2(0, _rowY - 36), Quaternion.identity) as Transform;
-		laser_trigger.parent = gameObject.transform;
+		laser_trigger.parent = level.transform;
 
 		Transform score_trigger = Instantiate (scoreTrigger, new Vector2(0, _rowY - 68), Quaternion.identity) as Transform;
-		score_trigger.parent = gameObject.transform;
+		score_trigger.parent = level.transform;
 		
 		_rowY -= 64;
 	}
@@ -109,14 +112,14 @@ public class LevelManager : MonoBehaviour {
 		//float laser_width = renderer.sprite.bounds.size.x;
 		
 		if (left_side) {
-			Transform laser_transform = Instantiate (laser, new Vector2(-Camera.main.orthographicSize, y_position), Quaternion.identity) as Transform;
+			Transform laser_transform = Instantiate (laser, new Vector2(leftSide.transform.position.x, y_position), Quaternion.identity) as Transform;
 			Laser l = laser_transform.GetComponent<Laser>();
 			l.transform.parent = gameObject.transform;
 			l.Init("right");
 		}
-		
+
 		if (right_side) {
-			Transform laser_transform = Instantiate (laser, new Vector2(Camera.main.orthographicSize, y_position), Quaternion.identity) as Transform;
+			Transform laser_transform = Instantiate (laser, new Vector2(rightSide.transform.position.x, y_position), Quaternion.identity) as Transform;
 			Laser l = laser_transform.GetComponent<Laser>();
 			l.transform.parent = gameObject.transform;
 			l.Init("left");
