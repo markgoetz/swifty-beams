@@ -4,12 +4,14 @@ using System.Collections;
 public class LevelManager : MonoBehaviour {
 
 	private const int TILES_PER_ROW = 10;
-	
+
 	private int _rowY;
 
-	public Transform leftSide;
-	public Transform rightSide;
-	public Transform level;
+	private Transform _leftSide;
+	private Transform _rightSide;
+	private Transform _level;
+	private Transform _rows;
+
 	public Transform singleBlock;
 	public Transform leftBlock;
 	public Transform rightBlock;
@@ -22,18 +24,24 @@ public class LevelManager : MonoBehaviour {
 
 
 	void Start () {
+		_setupTransforms();
+
 		Init();
 	}
 
 	public void Init() {
 		_rowY = 0;
 
-		foreach (Transform child in level.transform) {
+		foreach (Transform child in _level.transform) {
             Destroy(child.gameObject);
         }
 
 		for (int i = 0; i < initialRows; i++) {
 			AddRow ();
+		}
+
+		foreach (Transform child in _rows.transform) {
+			child.GetComponent<BackgroundScroller>().Init();
 		}
 	}
 	
@@ -65,14 +73,14 @@ public class LevelManager : MonoBehaviour {
 				block_prefab = singleBlock;
 				
 			Transform block = Instantiate(block_prefab, new Vector2(i * 32 - 144, _rowY), Quaternion.identity) as Transform;
-			block.parent = level.transform;
+			block.parent = _level.transform;
 		}
 
 		Transform laser_trigger = Instantiate (laserTrigger, new Vector2(0, _rowY - 36), Quaternion.identity) as Transform;
-		laser_trigger.parent = level.transform;
+		laser_trigger.parent = _level.transform;
 
 		Transform score_trigger = Instantiate (scoreTrigger, new Vector2(0, _rowY - 68), Quaternion.identity) as Transform;
-		score_trigger.parent = level.transform;
+		score_trigger.parent = _level.transform;
 		
 		_rowY -= 64;
 	}
@@ -112,18 +120,25 @@ public class LevelManager : MonoBehaviour {
 		//float laser_width = renderer.sprite.bounds.size.x;
 		
 		if (left_side) {
-			Transform laser_transform = Instantiate (laser, new Vector2(leftSide.transform.position.x, y_position), Quaternion.identity) as Transform;
+			Transform laser_transform = Instantiate (laser, new Vector2(_leftSide.transform.position.x, y_position), Quaternion.identity) as Transform;
 			Laser l = laser_transform.GetComponent<Laser>();
-			l.transform.parent = level.transform;
+			l.transform.parent = _level.transform;
 			l.Init("right");
 		}
 
 		if (right_side) {
-			Transform laser_transform = Instantiate (laser, new Vector2(rightSide.transform.position.x, y_position), Quaternion.identity) as Transform;
+			Transform laser_transform = Instantiate (laser, new Vector2(_rightSide.transform.position.x, y_position), Quaternion.identity) as Transform;
 			Laser l = laser_transform.GetComponent<Laser>();
-			l.transform.parent = level.transform;
+			l.transform.parent = _level.transform;
 			l.Init("left");
 		}
+	}
+
+	private void _setupTransforms() {
+		_rows = transform.Find("Rows");
+		_leftSide = transform.Find("LeftSide");
+		_rightSide = transform.Find("RightSide");
+		_level = transform.Find("Level");
 	}
 
 	public static LevelManager GetInstance() {

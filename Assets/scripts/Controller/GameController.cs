@@ -23,7 +23,6 @@ public class GameController : MonoBehaviour {
 			while (_player.IsAlive) {
 				yield return null;
 			}
-
 			_diedMessage.Show();
 
 			while (!_diedMessage.IsDone) {
@@ -34,5 +33,9 @@ public class GameController : MonoBehaviour {
 			_level.Init();
 			_scoreController.ResetScore();
 		}
+	}
+
+	public static GameController GetInstance() {
+		return GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 	}
 }
