@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour {
 			while (_player.IsAlive) {
 				yield return null;
 			}
+
 			_diedMessage.Show();
 
 			while (!_diedMessage.IsDone) {

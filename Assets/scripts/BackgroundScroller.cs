@@ -7,7 +7,6 @@ public class BackgroundScroller : MonoBehaviour {
 
 	private Camera _gameCamera;
 	private float _height;
-	private float _initialY;
 	private float _cameraHeight;
 
 	void Awake () {
@@ -15,12 +14,10 @@ public class BackgroundScroller : MonoBehaviour {
 		_cameraHeight = _gameCamera.orthographicSize;
 		SpriteRenderer renderer = GetComponent<SpriteRenderer>();
 		_height = renderer.sprite.bounds.size.y;
-		_initialY = transform.position.y;
 	}
 
 	public void Init() {
-		Debug.Log(_initialY);
-		transform.position = new Vector2(transform.position.x, _initialY);
+
 	}
 	
 	void Update () {

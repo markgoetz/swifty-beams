@@ -4,20 +4,38 @@ using System.Collections;
 [RequireComponent(typeof(Animator))]
 public class PlayerView : MonoBehaviour {
 	private Animator _animator;
-	private bool _facingRight = false;
+	private PlayerManager _player;
 
 	void Awake() {
 		_animator = GetComponent<Animator>();
+		_player = PlayerManager.GetInstance();
 	}
 
-	public void UpdateVelocity(Vector2 velocity, bool is_falling) {
-		if (velocity.x < 0)
-			_facingRight = false;
-		else if (velocity.x > 0)
-			_facingRight = true;
+	void Update() {
+		_animator.SetBool("facing_right", _player.FacingRight);
+	    bool walking = false;
+	    bool standing = false;
+	    bool falling = false;
+	    bool sliding = false;
 
-		_animator.SetBool("is_falling", is_falling);
-		_animator.SetBool("moving", Mathf.Abs(velocity.x) > .01f);
-		_animator.SetBool("facing_right", _facingRight);
+		switch (_player.State) {
+			case PlayerState.Walking:
+				walking = true;
+				break;
+			case PlayerState.Standing:
+				standing = true;
+				break;
+			case PlayerState.Falling:
+				falling = true;
+				break;
+			case PlayerState.Sliding:
+				sliding = true;
+				break;
+		}
+
+	    _animator.SetBool("walking", walking);
+	    _animator.SetBool("standing", standing);
+	    _animator.SetBool("falling", falling);
+	    _animator.SetBool("sliding", sliding);
 	}
 }

@@ -7,10 +7,10 @@ public class SwiftyBeamsCamera : MonoBehaviour {
 	public float scrollTime;
 	public float delayAfterScroll;
 
-	private PlayerController _player;
+	private PlayerManager _player;
 
 	void Awake() {
-		_player = PlayerController.GetInstance();
+		_player = PlayerManager.GetInstance();
 	}
 
 	void Update() {

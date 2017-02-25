@@ -15,8 +15,6 @@ public class PlayerMover : MonoBehaviour {
 
 	public GameObject deathEffect;
 
-	private PlayerView _view;
-
 	private Vector2 _velocity;
 	private Rect _hitbox;
 
@@ -33,7 +31,6 @@ public class PlayerMover : MonoBehaviour {
 	void Awake () {
 		//position = gameObject.transform.position;
 		//velocity = new Vector2 (0, 0);
-		_view = GetComponent<PlayerView> ();
 		_startPoint = transform.position;
 		_score = ScoreController.GetInstance();
 		_isAlive = true;
@@ -118,10 +115,7 @@ public class PlayerMover : MonoBehaviour {
 	}
 	
 	void LateUpdate() {
-
-	
 		move (_velocity);
-		_view.UpdateVelocity(_velocity, _isFalling);
 	}
 
 	private float getAcceleration() {
@@ -134,6 +128,10 @@ public class PlayerMover : MonoBehaviour {
 
 	private void move(Vector2 velocity) {
 		GetComponent<Rigidbody2D>().velocity = velocity;
+	}
+
+	public Vector2 Velocity {
+		get { return _velocity; }
 	}
 	
 	float Accelerate(float initial_velocity, float amount, float max_velocity) {
