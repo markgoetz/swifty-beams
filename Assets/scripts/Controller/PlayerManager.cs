@@ -6,9 +6,15 @@ public class PlayerManager : MonoBehaviour {
 	private bool _facingRight = false;
 	public StateTransition[] transitions;
 	private PlayerMover _mover;
+	private PlayerSlide _slide;
 
 	void Awake() {
 		_mover = PlayerMover.GetInstance();
+		_slide = PlayerSlide.GetInstance();
+	}
+
+	void Update() {
+		
 	}
 
 	void LateUpdate() {
@@ -26,12 +32,12 @@ public class PlayerManager : MonoBehaviour {
 	private void _setStateFromVelocity(Vector2 velocity) {
 		if (velocity.y < 0)
 			this._state = PlayerState.Falling;
-		else if (velocity.x != 0) {
+		else if (_slide.IsSliding == true)
+			this._state = PlayerState.Sliding;
+		else if (velocity.x != 0)
 			this._state = PlayerState.Walking;
-		}
-		else {
+		else 
 			this._state = PlayerState.Standing;
-		}
 
 		if (velocity.x > 0)
 			_facingRight = true;
@@ -48,7 +54,7 @@ public class PlayerManager : MonoBehaviour {
 
 	public bool CanSlide {
 		get {
-			if (_state == PlayerState.Falling) return false;
+			if (_state == PlayerState.Falling || _state == PlayerState.Sliding) return false;
 			return true;
 		}
 	}

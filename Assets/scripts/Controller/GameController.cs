@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour {
 				yield return null;
 			}
 
-			_player.Init();
+			_player.Spawn();
 			_level.Init();
 			_scoreController.ResetScore();
 		}

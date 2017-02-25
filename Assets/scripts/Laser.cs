@@ -18,7 +18,6 @@ public class Laser : MonoBehaviour {
 		_audioSource = GetComponent<AudioSource>();
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		if (_rigidBody.velocity.x < 0 && transform.position.x < 0) {
 			_rigidBody.velocity = new Vector2(0,0);

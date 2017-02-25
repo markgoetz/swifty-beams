@@ -26,21 +26,21 @@ public class PlayerMover : MonoBehaviour {
 	private bool _isFalling;
 	private bool _isAlive;
 
+	private PlayerManager _manager;
 
-	// Use this for initialization
+
 	void Awake () {
-		//position = gameObject.transform.position;
-		//velocity = new Vector2 (0, 0);
 		_startPoint = transform.position;
 		_score = ScoreController.GetInstance();
+		_manager = PlayerManager.GetInstance();
 		_isAlive = true;
 	}
 
 	void Start() {
-		Init();
+		Spawn();
 	}
 
-	public void Init() {
+	public void Spawn() {
 		_isFalling = false;
 		_isAlive = true;
 		transform.position = _startPoint;
@@ -59,12 +59,14 @@ public class PlayerMover : MonoBehaviour {
 		LayerMask layer_mask = 1 << LayerMask.NameToLayer ("Block");
 		int traces = 3;	
 
-		float x_direction = Input.GetAxisRaw ("Horizontal");
+		if (_manager.CanWalk) {
+			float x_direction = Input.GetAxisRaw ("Horizontal");
 
-		if (x_direction != 0) {
-			_velocity.x = Accelerate (_velocity.x, x_direction * getAcceleration (), maxVelocity);
-		} else {
-			_velocity.x = Decelerate (_velocity.x, getDeceleration());
+			if (x_direction != 0) {
+				_velocity.x = Accelerate (_velocity.x, x_direction * getAcceleration (), maxVelocity);
+			} else {
+				_velocity.x = Decelerate (_velocity.x, getDeceleration());
+			}
 		}
 
 		if (_velocity.x != 0) {
@@ -105,7 +107,6 @@ public class PlayerMover : MonoBehaviour {
 			if (hit.collider != null) {
 				float distance = Mathf.Abs (hit.point.y - origin.y);
 				distance -= _hitbox.height / 2;
-				//distance -= hitbox_gap;
 				_velocity.y = 0;
 				transform.Translate (direction * distance);
 				_hitbox = new Rect (GetComponent<Collider2D>().bounds.min.x + _hitboxGap, GetComponent<Collider2D>().bounds.min.y + _hitboxGap, GetComponent<Collider2D>().bounds.size.x - _hitboxGap * 2, GetComponent<Collider2D>().bounds.size.y - _hitboxGap * 2);
@@ -115,7 +116,8 @@ public class PlayerMover : MonoBehaviour {
 	}
 	
 	void LateUpdate() {
-		move (_velocity);
+		if (_manager.CanWalk)
+			move (_velocity);
 	}
 
 	private float getAcceleration() {
@@ -166,12 +168,11 @@ public class PlayerMover : MonoBehaviour {
 		_isAlive = false;
 		GetComponent<SpriteRenderer>().enabled = false;
 		Transform.Instantiate(deathEffect, transform.position, Quaternion.identity);
-		//gameObject.SetActive (false);
 	}
-	
-	void ResetPosition() {
-		transform.position = _startPoint;
-	}
+//	
+//	void ResetPosition() {
+//		transform.position = _startPoint;
+//	}
 	
 	void AddScore() {
 		_score.AddScore();
