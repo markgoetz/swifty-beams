@@ -9,25 +9,26 @@ public class PlayerSlide : MonoBehaviour {
 	public float Cooldown;
 
 	private bool _isSliding;
+	private bool _canSlide;
 
 	private PlayerManager _manager;
 
 	void Awake () {
 		_manager = PlayerManager.GetInstance();
 		_isSliding = false;
+		_canSlide = true;
 	}
 
 	void Update () {
-		if (Input.GetButtonDown("Slide") == true && _manager.CanSlide) {
-			Debug.Log("Slide!");
+		if (Input.GetButtonDown("Slide") == true && _canSlide && _manager.CanSlide) {
 			_isSliding = true;
+			_canSlide = false;
 			StartCoroutine(_FinishSlideCoroutine());
 		}
 	}
 
 	void LateUpdate() {
 		if (_isSliding) {
-			Debug.Log("Sliding!");
 			int directionModifier = _manager.FacingRight ? 1 : -1;
 			float velocityX = directionModifier * SlideVelocity;
 			this.GetComponent<Rigidbody2D>().velocity = new Vector2(velocityX, 0);
@@ -37,10 +38,13 @@ public class PlayerSlide : MonoBehaviour {
 	private IEnumerator _FinishSlideCoroutine() {
 		yield return new WaitForSeconds(Duration);
 		_isSliding = false;
+		yield return new WaitForSeconds(Cooldown);
+		_canSlide = true;
 	}
 
-	public void StopSlide() {
+	public void CancelSlide() {
 		_isSliding = false;
+		_canSlide = true;
 	}
 
 	public bool IsSliding {

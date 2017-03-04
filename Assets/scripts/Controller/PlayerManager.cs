@@ -3,8 +3,9 @@ using System.Collections;
 
 public class PlayerManager : MonoBehaviour {
 	public PlayerState _state;
+	public BoxCollider2D standingHitbox;
+	public BoxCollider2D slidingHitbox;
 	private bool _facingRight = false;
-	public StateTransition[] transitions;
 	private PlayerMover _mover;
 	private PlayerSlide _slide;
 
@@ -43,6 +44,17 @@ public class PlayerManager : MonoBehaviour {
 			_facingRight = true;
 		else if (velocity.x < 0)
 			_facingRight = false;
+
+		if (this._state == PlayerState.Falling)
+			_slide.CancelSlide();
+
+		if (this._state == PlayerState.Sliding) {
+			standingHitbox.enabled = false;
+			slidingHitbox.enabled = true;
+		} else {
+			standingHitbox.enabled = true;
+			slidingHitbox.enabled = false;
+		}
 	}
 
 	public bool CanWalk {
