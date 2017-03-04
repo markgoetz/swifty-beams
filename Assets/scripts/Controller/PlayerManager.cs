@@ -5,20 +5,28 @@ public class PlayerManager : MonoBehaviour {
 	public PlayerState _state;
 	private bool _facingRight = false;
 	public StateTransition[] transitions;
-	private PlayerMover _mover;
+	private PlayerWalk _walk;
 	private PlayerSlide _slide;
+	private PlayerCollisionManager _collision;
 
 	void Awake() {
-		_mover = PlayerMover.GetInstance();
-		_slide = PlayerSlide.GetInstance();
+		_walk = gameObject.GetComponent<PlayerWalk>();
+		_slide = gameObject.GetComponent<PlayerSlide>();
+		_collision = gameObject.GetComponent<PlayerCollisionManager>();
 	}
 
 	void Update() {
-		
+		_checkForFalling();
+
+		_checkForSlide();
+		_checkForWalk();
+
+		_checkForCollision();
+		_setStateFromVelocity(_mover.Velocity);
 	}
 
 	void LateUpdate() {
-		_setStateFromVelocity(_mover.Velocity);
+		
 	}
 
 	public PlayerState State {
